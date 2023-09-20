@@ -1,6 +1,6 @@
 import { fetchMoreDetails } from '../../components/API';
 import { Loader } from '../../components/Loader/Loader';
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useRef } from 'react';
 import { useParams,Link,Outlet,useLocation} from 'react-router-dom';
 import { Button,Wrapper,Title,ItemImg,ListItem,ListInfo,StyledLink,List } from './MovieDetails.styled';
 
@@ -10,7 +10,7 @@ const location =useLocation()
   const [movie, setMovie] = useState({});
   const [loading, setLoading] = useState(false);
   const defaultImg = 'https://ireland.apollo.olxcdn.com/v1/files/0iq0gb9ppip8-UA/image;s=1000x700'
-  
+    const backLink= useRef(location.state?.from || '/');
   useEffect(() => {
 
 const fetchFilm=()=> {
@@ -48,7 +48,7 @@ const genre = genreArr?.map(genre=>
       {loading && <Loader />} 
 
       
-      <Link to={location.state?.from??'/'}><Button type ="button">Go back</Button></Link>
+      <Link to={backLink.current}><Button type ="button">Go back</Button></Link>
 
       <Wrapper>
         <div>
@@ -65,12 +65,12 @@ alt="poster"
         <div>
           <Title>{movie.original_title}</Title>
           <ul>
-            <ListItem>
+            <ListItem >
               User score <ListInfo>{Math.ceil(movie.vote_average * 10)}%</ListInfo></ListItem>
-            <ListItem>
+            <ListItem >
               Overviev <ListInfo>{movie.overview}</ListInfo></ListItem>
-            <ListItem>
-               Genres <ListInfo> {genre}</ListInfo>
+            <ListItem >
+              Genres <ListInfo > {genre}</ListInfo>
             </ListItem>
            
           </ul>
